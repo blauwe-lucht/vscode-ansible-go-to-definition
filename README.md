@@ -1,71 +1,26 @@
-# ansible-go-to-definition README
+# Visual Studio Code Ansible Go to Definition
 
-This is the README for your extension "ansible-go-to-definition". After writing up a brief description, we recommend including the following sections.
+This vscode extension enhances the [RedHat Ansible extension](https://marketplace.visualstudio.com/items?itemName=redhat.ansible)
+with some extra 'Go to Definition' functionality.
 
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+> **IMPORTANT:** This extension uses heuristics and will therefore be wrong in a lot of cases!
+> Use at your own risk and don't use it when it doesn't work with your project.
+> Don't say I didn't warn you. :)
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+The extension will only work when the RedHat Ansible extension has been
+installed and the current file is actually recognized as Ansible file (it should say 'Ansible' in the bottom right of the IDE).
 
-## Extension Settings
+## How to use
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+Right-click on a word and select 'Go to Definition' or press F12 (or whatever shortcut key you have assigned).
 
-For example:
+## (Partially) supported definitions
 
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+- variables,
+- import_tasks,
+- include_tasks,
+- files,
+- templates,
+- roles
