@@ -5,7 +5,8 @@ import * as assert from 'assert';
 import * as vscode from 'vscode';
 import {
 	getFilePatternForRelativePath,
-	lineIsFileProperty
+	lineIsFileProperty,
+	lineIsRole
 } from '../extension';
 
 suite('Extension Test Suite', () => {
@@ -22,5 +23,11 @@ suite('Extension Test Suite', () => {
 
 	test('getFilePatternForRelativePath', () => {
 		assert.strictEqual(getFilePatternForRelativePath("tasks/included_tasks.yml"), "**/tasks/included_tasks.yml");
+	});
+
+	test('lineIsRole', () => {
+		assert.strictEqual(lineIsRole("        file: tasks/included_tasks.yml"), false);
+		assert.strictEqual(lineIsRole("        - simple"), true, "- simple");
+		assert.strictEqual(lineIsRole("        - role: simple"), true, "- role: simple");
 	});
 });

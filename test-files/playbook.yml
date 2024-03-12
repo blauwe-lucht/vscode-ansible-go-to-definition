@@ -48,3 +48,6 @@
 
   roles:
     - simple
+    - role: simple
+      vars:
+        my_other_var: 42

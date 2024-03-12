@@ -1,0 +1,1 @@
+You should end up here when using 'Go to definition' on file_in_files.txt.

@@ -1,0 +1,4 @@
+---
+- name: Do something
+  ansible.builtin.debug:
+    msg: "Doing something"
