@@ -1,0 +1,9 @@
+---
+- name: Test playbook
+  hosts: localhost
+  vars:
+    my_var: 42
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: "my_var = {{ my_var }}"
