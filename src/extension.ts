@@ -75,7 +75,8 @@ class AnsibleDefinitionProvider implements vscode.DefinitionProvider {
 			}
         }
 
-        return locations;    }
+        return locations;    
+	}
 }
 
 // This method is called when your extension is deactivated
