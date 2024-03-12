@@ -6,9 +6,7 @@ import * as vscode from 'vscode';
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "ansible-go-to-definition" is now active!');
+	log('extension active');
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
@@ -31,6 +29,7 @@ class AnsibleDefinitionProvider implements vscode.DefinitionProvider {
         token: vscode.CancellationToken
     ): Promise<vscode.Definition | vscode.DefinitionLink[]> {
 		const varName: string = document.getText(document.getWordRangeAtPosition(position));
+		log(`Looking for ${varName}`);
 		const pattern: string = `\\s*${varName}\\s*:`;
         const regex = new RegExp(pattern);
 
@@ -53,7 +52,7 @@ class AnsibleDefinitionProvider implements vscode.DefinitionProvider {
 		
 		const filesSet = new Set(allFiles.map(file => file.fsPath));
 		const files = Array.from(filesSet).map(path => vscode.Uri.file(path));
-		console.log(`${files.length} files found matching the pattern`);
+		log(`${files.length} files found matching the file pattern`);
 
 		const locations: vscode.Location[] = [];
         for (const file of files) {
@@ -68,7 +67,7 @@ class AnsibleDefinitionProvider implements vscode.DefinitionProvider {
 						const endIndex = startIndex + varName.length;
 						const range = new vscode.Range(i, startIndex, i, endIndex);
 						const location = new vscode.Location(file, range);
-						console.log(`  ${file}`);
+						log(`  ${file}`);
 						locations.push(location);
 					}
 				});
@@ -81,3 +80,8 @@ class AnsibleDefinitionProvider implements vscode.DefinitionProvider {
 
 // This method is called when your extension is deactivated
 export function deactivate() {}
+
+function log(message: string) {
+    const extensionName = 'ansible-go-to-definition';
+    console.log(`[${extensionName}]: ${message}`);
+}
