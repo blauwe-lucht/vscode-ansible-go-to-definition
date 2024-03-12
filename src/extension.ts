@@ -28,9 +28,26 @@ class AnsibleDefinitionProvider implements vscode.DefinitionProvider {
         position: vscode.Position,
         token: vscode.CancellationToken
     ): Promise<vscode.Definition | vscode.DefinitionLink[]> {
-		const varName: string = document.getText(document.getWordRangeAtPosition(position));
-		log(`Looking for ${varName}`);
-		const pattern: string = `\\s*${varName}\\s*:`;
+		const line: string = document.lineAt(position.line).text;
+		const currentWord: string = document.getText(document.getWordRangeAtPosition(position));
+		if (lineIsFileProperty(line))
+		{
+			log(`searching for file ${currentWord}`);
+			const filePattern: string = getFilePatternForRelativePath(currentWord);
+			const files = await vscode.workspace.findFiles(filePattern);
+			const locations: vscode.Location[] = [];
+			const range = new vscode.Range(0, 0, 0, 0);
+			for (const file of files) {
+				const location = new vscode.Location(file, range);
+				log(`  ${file}`);
+				locations.push(location);
+			}
+			return locations;
+		}
+
+		log(`Looking for ${currentWord}`);
+
+		const pattern: string = `\\s*${currentWord}\\s*:`;
         const regex = new RegExp(pattern);
 
 		const playbookFiles = await vscode.workspace.findFiles('**/*playbook*.{yml,yaml}');
@@ -63,8 +80,8 @@ class AnsibleDefinitionProvider implements vscode.DefinitionProvider {
 				const lines = content.toString().split('\n');
 				lines.forEach((line, i) => {
 					if (regex.test(line)) {
-						const startIndex = line.indexOf(varName);
-						const endIndex = startIndex + varName.length;
+						const startIndex = line.indexOf(currentWord);
+						const endIndex = startIndex + currentWord.length;
 						const range = new vscode.Range(i, startIndex, i, endIndex);
 						const location = new vscode.Location(file, range);
 						log(`  ${file}`);
@@ -84,4 +101,21 @@ export function deactivate() {}
 function log(message: string) {
     const extensionName = 'ansible-go-to-definition';
     console.log(`[${extensionName}]: ${message}`);
+}
+
+export function lineIsFileProperty(line: string): boolean {
+	const parts: string[] = line.split(':');
+	if (parts.length <= 1) {
+		return false;
+	}
+
+	const keyword: string = parts[0].trim();
+	return keyword === 'file' || 
+		keyword === 'src' ||
+		keyword.includes('include_tasks') ||
+		keyword.includes('import_tasks');
+}
+
+export function getFilePatternForRelativePath(currentWord: string): string {
+	return `**/${currentWord}`;
 }

@@ -3,13 +3,24 @@ import * as assert from 'assert';
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
 import * as vscode from 'vscode';
-// import * as myExtension from '../../extension';
+import {
+	getFilePatternForRelativePath,
+	lineIsFileProperty
+} from '../extension';
 
 suite('Extension Test Suite', () => {
 	vscode.window.showInformationMessage('Start all tests.');
 
-	test('Sample test', () => {
-		assert.strictEqual(-1, [1, 2, 3].indexOf(5));
-		assert.strictEqual(-1, [1, 2, 3].indexOf(0));
+	test('lineIsFileProperty', () => {
+		assert.strictEqual(lineIsFileProperty("        file: tasks/included_tasks.yml"), true);
+		assert.strictEqual(lineIsFileProperty("      include_tasks: tasks/included_tasks.yml"), true);
+		assert.strictEqual(lineIsFileProperty("      ansible.builtin.include_tasks: tasks/included_tasks.yml"), true);
+		assert.strictEqual(lineIsFileProperty("      ansible.builtin.import_tasks: tasks/included_tasks.yml"), true);
+		assert.strictEqual(lineIsFileProperty("        src: file_in_files.txt"), true);
+		assert.strictEqual(lineIsFileProperty("        msg: \"my_var = {{ my_var }}\""), false);
+	});
+
+	test('getFilePatternForRelativePath', () => {
+		assert.strictEqual(getFilePatternForRelativePath("tasks/included_tasks.yml"), "**/tasks/included_tasks.yml");
 	});
 });

@@ -7,3 +7,44 @@
     - name: Debug
       ansible.builtin.debug:
         msg: "my_var = {{ my_var }}"
+
+    - name: Include tasks (long)
+      ansible.builtin.include_tasks:
+        file: tasks/included_tasks.yml
+
+    - name: Include tasks (short)
+      ansible.builtin.include_tasks: tasks/included_tasks.yml
+
+    - name: Import tasks (long)
+      ansible.builtin.import_tasks:
+        file: tasks/included_tasks.yml
+
+    - name: Import tasks (short)
+      ansible.builtin.import_tasks: tasks/included_tasks.yml
+
+    - name: Copy file (short path)
+      ansible.builtin.copy:
+        src: file_in_files.txt
+        dest: /tmp
+        mode: "0644"
+
+    - name: Copy file (long path)
+      ansible.builtin.copy:
+        src: files/file_in_files.txt
+        dest: /tmp
+        mode: "0644"
+
+    - name: Generate from template (short path)
+      ansible.builtin.template:
+        src: somedir/some_template.j2
+        dest: /tmp/some_file
+        mode: "0644"
+
+    - name: Generate from template (long path)
+      ansible.builtin.template:
+        src: templates/somedir/some_template.j2
+        dest: /tmp/some_file
+        mode: "0644"
+
+  roles:
+    - simple
