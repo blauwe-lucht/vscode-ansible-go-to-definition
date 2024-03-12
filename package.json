@@ -1,10 +1,14 @@
 {
   "name": "ansible-go-to-definition",
-  "displayName": "ansible-go-to-definition",
+  "displayName": "Ansible Go to Definition",
   "description": "Implements 'Go to definition' for Ansible projects.",
   "version": "0.0.1",
   "publisher": "BlauweLucht",
-  "repository": "https://github.com/blauwe-lucht/vscode-ansible-go-to-definition",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blauwe-lucht/vscode-ansible-go-to-definition"
+  },
   "engines": {
     "vscode": "^1.87.0"
   },
