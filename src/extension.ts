@@ -32,11 +32,17 @@ class AnsibleDefinitionProvider implements vscode.DefinitionProvider {
 		const currentWordRange: string = document.getText(document.getWordRangeAtPosition(position));
 		if (lineIsFileProperty(line))
 		{
-			return await getFilesLocationsFromWordRange(currentWordRange);
+			const locations = await getFilesLocationsFromWordRange(currentWordRange);
+			if (locations !== null && locations.length > 0) {
+				return locations;
+			}
 		}
 		if (lineIsRole(line))
 		{
-			return await getRolesLocationsFromWordRange(currentWordRange);
+			const locations = await getRolesLocationsFromWordRange(currentWordRange);
+			if (locations !== null && locations.length > 0) {
+				return locations;
+			}
 		}
 
 		return await getVarLocationsFromWordRange(currentWordRange);    
@@ -92,19 +98,19 @@ async function getVarLocationsFromWordRange(currentWordRange: string) {
 	return locations;
 }
 
-async function getFilesLocationsFromWordRange(wordRange: string): Promise<vscode.Definition | vscode.DefinitionLink[]> {
+async function getFilesLocationsFromWordRange(wordRange: string): Promise<vscode.Location[]> {
 	log(`searching for file ${wordRange}`);
 	const filePattern: string = getFilePatternForRelativePath(wordRange);
 	return await getFileLocationsFromPattern(filePattern);
 }
 
-async function getRolesLocationsFromWordRange(wordRange: string): Promise<vscode.Definition | vscode.DefinitionLink[]> {
+async function getRolesLocationsFromWordRange(wordRange: string): Promise<vscode.Location[]> {
 	log(`searching for role ${wordRange}`);
 	const filePattern: string = getFilePatternForRole(wordRange);
 	return await getFileLocationsFromPattern(filePattern);
 }
 
-async function getFileLocationsFromPattern(filePattern: string) {
+async function getFileLocationsFromPattern(filePattern: string): Promise<vscode.Location[]> {
 	const files = await vscode.workspace.findFiles(filePattern);
 	const locations: vscode.Location[] = [];
 	const range = new vscode.Range(0, 0, 0, 0);
