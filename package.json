@@ -2,7 +2,7 @@
   "name": "ansible-go-to-definition",
   "displayName": "Ansible Go to Definition",
   "description": "Implements 'Go to definition' for Ansible projects.",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "publisher": "BlauweLucht",
   "license": "MIT",
   "repository": {
@@ -10,7 +10,7 @@
     "url": "https://github.com/blauwe-lucht/vscode-ansible-go-to-definition"
   },
   "engines": {
-    "vscode": "^1.87.0"
+    "vscode": "^1.85.0"
   },
   "categories": [
     "Other"
@@ -38,7 +38,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
-    "@types/vscode": "^1.87.0",
+    "@types/vscode": "^1.85.0",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "@vscode/test-cli": "^0.0.6",
