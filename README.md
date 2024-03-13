@@ -23,4 +23,10 @@ Right-click on a word and select 'Go to Definition' or press F12 (or whatever sh
 - include_tasks,
 - files,
 - templates,
-- roles
+- roles,
+- handlers (notify)
+
+## TODO
+
+- reduce number of files
+- bundle the extension (<https://aka.ms/vscode-bundle-extension>)

@@ -5,7 +5,9 @@ import * as assert from 'assert';
 import * as vscode from 'vscode';
 import {
 	getFilePatternForRelativePath,
+	getHandlerNameFromLine,
 	lineIsFileProperty,
+	lineIsNotify,
 	lineIsRole
 } from '../extension';
 
@@ -29,5 +31,21 @@ suite('Extension Test Suite', () => {
 		assert.strictEqual(lineIsRole("        file: tasks/included_tasks.yml"), false);
 		assert.strictEqual(lineIsRole("        - simple"), true, "- simple");
 		assert.strictEqual(lineIsRole("        - role: simple"), true, "- role: simple");
+	});
+
+	test('lineIsNotify-file', () => {
+		assert.strictEqual(lineIsNotify("        file: tasks/included_tasks.yml"), false);
+	});
+
+	test('lineIsNotify-simple', () => {
+		assert.strictEqual(lineIsNotify("        - simple"), false);
+	});
+
+	test('lineIsNotify-notify', () => {
+		assert.strictEqual(lineIsNotify("        notify: Some handler"), true);
+	});
+
+	test('getHandlerNameFromLine', () => {
+		assert.strictEqual(getHandlerNameFromLine("     notify: Some handler    "), "Some handler");
 	});
 });

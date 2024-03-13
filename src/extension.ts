@@ -44,15 +44,26 @@ class AnsibleDefinitionProvider implements vscode.DefinitionProvider {
 				return locations;
 			}
 		}
+		if (lineIsNotify(line))
+		{
+			const handlerName: string = getHandlerNameFromLine(line);
+			const locations = await getLocationsFromHandlerName(handlerName);
+			if (locations !== null && locations.length > 0) {
+				return locations;
+			}
+		}
 
 		return await getVarLocationsFromWordRange(currentWordRange);    
 	}
 }
 
-async function getVarLocationsFromWordRange(currentWordRange: string) {
-	log(`Looking for ${currentWordRange}`);
+async function getVarLocationsFromWordRange(wordRange: string) {
+	log(`Looking for ${wordRange}`);
+	const pattern: string = `\\s*${wordRange}\\s*:`;
+	return getLocationsFromRegex(pattern, wordRange);
+}
 
-	const pattern: string = `\\s*${currentWordRange}\\s*:`;
+async function getLocationsFromRegex(pattern: string, wordRange: string) {
 	const regex = new RegExp(pattern);
 
 	const playbookFiles = await vscode.workspace.findFiles('**/*playbook*.{yml,yaml}');
@@ -84,8 +95,8 @@ async function getVarLocationsFromWordRange(currentWordRange: string) {
 			const lines = content.toString().split('\n');
 			lines.forEach((line, i) => {
 				if (regex.test(line)) {
-					const startIndex = line.indexOf(currentWordRange);
-					const endIndex = startIndex + currentWordRange.length;
+					const startIndex = line.indexOf(wordRange);
+					const endIndex = startIndex + wordRange.length;
 					const range = new vscode.Range(i, startIndex, i, endIndex);
 					const location = new vscode.Location(file, range);
 					log(`  ${file}`);
@@ -122,6 +133,11 @@ async function getFileLocationsFromPattern(filePattern: string): Promise<vscode.
 	return locations;
 }
 
+async function getLocationsFromHandlerName(handlerName: string): Promise<vscode.Location[]> {
+	const pattern: string = `\\s*name\\s*:\\s*${handlerName}\\s*`;
+	return getLocationsFromRegex(pattern, handlerName);
+}
+
 // This method is called when your extension is deactivated
 export function deactivate() {}
 
@@ -156,6 +172,24 @@ export function lineIsRole(line: string): boolean {
 	const pattern: string = `\\s*-\\s*role\\s*:.*`;
 	const regex = new RegExp(pattern);
 	return regex.test(line);
+}
+
+export function lineIsNotify(line: string): boolean {
+	const parts: string[] = line.split(':');
+	if (parts.length <= 1) {
+		return false;
+	}
+
+	return parts[0].trim() === 'notify';
+}
+
+export function getHandlerNameFromLine(line: string): string {
+	const parts: string[] = line.split(':');
+	if (parts.length <= 1) {
+		return '';
+	}
+
+	return parts[1].trim();
 }
 
 export function getFilePatternForRelativePath(currentWord: string): string {

@@ -45,6 +45,12 @@
         src: templates/somedir/some_template.j2
         dest: /tmp/some_file
         mode: "0644"
+      notify: Some handler
+
+  handlers:
+    - name: Some handler
+      ansible.builtin.debug:
+        msg: "Some handler called"
 
   roles:
     - simple
