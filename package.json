@@ -2,7 +2,7 @@
   "name": "ansible-go-to-definition",
   "displayName": "Ansible Go to Definition",
   "description": "Implements 'Go to definition' for Ansible projects.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "publisher": "BlauweLucht",
   "icon": "images/vscode-ansible.png",
   "license": "MIT",
@@ -14,7 +14,7 @@
     "vscode": "^1.85.0"
   },
   "categories": [
-    "Other"
+    "Programming Languages"
   ],
   "activationEvents": [
     "onLanguage:ansible"
