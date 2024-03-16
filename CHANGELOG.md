@@ -1,9 +1,5 @@
 # Change Log
 
-All notable changes to the "ansible-go-to-definition" extension will be documented in this file.
+## [0.1.0] - 2024-03-16
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-
-- Initial release
+Initial version.

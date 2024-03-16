@@ -2,7 +2,7 @@
   "name": "ansible-go-to-definition",
   "displayName": "Ansible Go to Definition",
   "description": "Implements 'Go to definition' for Ansible projects.",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "publisher": "BlauweLucht",
   "icon": "images/vscode-ansible.png",
   "license": "MIT",
@@ -21,12 +21,7 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "ansible-go-to-definition.helloWorld",
-        "title": "Hello World"
-      }
-    ]
+    "commands": []
   },
   "scripts": {
     "compile": "tsc -p ./",
