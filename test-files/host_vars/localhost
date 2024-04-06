@@ -1,2 +1,6 @@
 ---
-my_var: 24
+my_var_multiple: 24
+my_var_single: 25
+# Check if searching for my_var_single does not find a superstring:
+my_var_single_suffix: 26
+prefix_my_var_single: 27

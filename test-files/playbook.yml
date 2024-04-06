@@ -2,11 +2,11 @@
 - name: Test playbook
   hosts: localhost
   vars:
-    my_var: 42
+    my_var_multiple: 42
   tasks:
     - name: Debug
       ansible.builtin.debug:
-        msg: "my_var = {{ my_var }}"
+        msg: "my_var_multiple = {{ my_var_multiple }}, my_var_single = {{ my_var_single }}"
 
     - name: Include tasks (long)
       ansible.builtin.include_tasks:
