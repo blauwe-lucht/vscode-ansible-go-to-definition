@@ -9,6 +9,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     const provider = new AnsibleDefinitionProvider();
     context.subscriptions.push(vscode.languages.registerDefinitionProvider({ language: 'ansible' }, provider));
+    context.subscriptions.push(vscode.languages.registerDefinitionProvider({ language: 'jinja' }, provider));
 }
 
 class AnsibleDefinitionProvider implements vscode.DefinitionProvider {
@@ -48,7 +49,7 @@ class AnsibleDefinitionProvider implements vscode.DefinitionProvider {
 
 async function getVarLocationsFromWordRange(wordRange: string) {
 	log(`Looking for ${wordRange}`);
-	const pattern: string = `\\s*${wordRange}\\s*:`;
+	const pattern: string = `\\s*\\b${wordRange}\\b\\s*:`;
 	return getLocationsFromRegex(pattern, wordRange);
 }
 
